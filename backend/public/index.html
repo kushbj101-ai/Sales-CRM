@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PipelinePro • Sales CRM & Lead Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(22, 30, 49, 0.75);
+      --border: rgba(255, 255, 255, 0.08);
+      --accent: #38bdf8;
+      --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --danger: #f87171;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(56, 189, 248, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(129, 140, 248, 0.12) 0%, transparent 40%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 30px 20px;
+    }
+
+    .container { width: 100%; max-width: 1000px; }
+
+    header { text-align: center; margin-bottom: 24px; }
+    h1 { font-size: 36px; font-weight: 800; letter-spacing: -0.5px; }
+    p.subtitle { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 22px;
+      font-weight: 800;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 4px;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 700;
+    }
+
+    .crm-form-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .form-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    input, select {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      width: 100%;
+      font-family: inherit;
+    }
+
+    input:focus, select:focus { border-color: var(--accent); }
+
+    button.btn-submit {
+      width: 100%;
+      background: var(--accent-gradient);
+      border: none;
+      color: #090d16;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .leads-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .lead-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color 0.2s;
+    }
+
+    .lead-card:hover { border-color: rgba(255, 255, 255, 0.2); }
+
+    .lead-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .lead-name { font-size: 18px; font-weight: 700; }
+    .lead-company { color: var(--text-muted); font-size: 13px; margin-left: 6px; }
+
+    .deal-value {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--success);
+    }
+
+    .lead-mid {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stage-select {
+      max-width: 180px;
+      padding: 6px 10px;
+      font-size: 13px;
+    }
+
+    .timeline {
+      background: rgba(11, 15, 25, 0.5);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 110px;
+      overflow-y: auto;
+    }
+
+    .timeline-item { color: #cbd5e1; display: flex; justify-content: space-between; }
+    .timeline-time { color: #64748b; font-size: 11px; }
+
+    .activity-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .activity-input-row input {
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    .btn-add-note {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .btn-delete {
+      background: transparent;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+    }
+
+    .btn-delete:hover { color: var(--danger); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>PipelinePro</h1>
+      <p class="subtitle">Enterprise Sales Pipeline & Deal Activity Manager</p>
+    </header>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Total Leads</div>
+        <div class="metric-value" id="mTotalLeads">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Pipeline Value</div>
+        <div class="metric-value" id="mTotalValue">$0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Closed-Won</div>
+        <div class="metric-value" id="mWonValue" style="color: var(--success);">$0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Active Deals</div>
+        <div class="metric-value" id="mActiveDeals">0</div>
+      </div>
+    </div>
+
+    <div class="crm-form-card">
+      <div class="form-title">+ Register New Opportunity</div>
+      <form id="leadForm">
+        <div class="form-grid">
+          <input type="text" id="name" placeholder="Contact Name" required />
+          <input type="text" id="company" placeholder="Company (e.g. Acme Corp)" required />
+          <input type="email" id="email" placeholder="Email Address" required />
+          <input type="number" id="dealValue" placeholder="Deal Value ($)" min="0" required />
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px;">
+          <select id="stage">
+            <option value="Discovery">Discovery</option>
+            <option value="Proposal">Proposal</option>
+            <option value="Negotiation">Negotiation</option>
+            <option value="Closed-Won">Closed-Won</option>
+            <option value="Closed-Lost">Closed-Lost</option>
+          </select>
+          <input type="text" id="initialNote" placeholder="Initial conversation note (optional)" />
+        </div>
+        <button type="submit" class="btn-submit">Add to Pipeline</button>
+      </form>
+    </div>
+
+    <div id="leadsContainer" class="leads-list"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('leadForm');
+    const container = document.getElementById('leadsContainer');
+
+    async function loadLeads() {
+      try {
+        const res = await fetch('/api/leads');
+        const { leads, metrics } = await res.json();
+
+        // Update dashboard metrics
+        document.getElementById('mTotalLeads').textContent = metrics.totalLeads;
+        document.getElementById('mTotalValue').textContent = '$' + Number(metrics.totalPipelineValue).toLocaleString();
+        document.getElementById('mWonValue').textContent = '$' + Number(metrics.wonValue).toLocaleString();
+        document.getElementById('mActiveDeals').textContent = metrics.activeDeals;
+
+        container.innerHTML = '';
+        if (leads.length === 0) {
+          container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted); border:1px dashed var(--border); border-radius:14px;">No active deals in pipeline. Register an opportunity above.</div>';
+          return;
+        }
+
+        leads.forEach(lead => {
+          const card = document.createElement('div');
+          card.className = 'lead-card';
+
+          const activitiesHtml = lead.activities.map(a => `
+            <div class="timeline-item">
+              <span>• ${a.note}</span>
+              <span class="timeline-time">${new Date(a.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+            </div>
+          `).join('');
+
+          card.innerHTML = `
+            <div class="lead-top">
+              <div>
+                <span class="lead-name">${lead.name}</span>
+                <span class="lead-company">@ ${lead.company} (${lead.email})</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:12px;">
+                <span class="deal-value">$${Number(lead.dealValue).toLocaleString()}</span>
+                <button class="btn-delete" title="Delete Lead" onclick="deleteLead('${lead._id}')">✕</button>
+              </div>
+            </div>
+
+            <div class="lead-mid">
+              <span style="font-size:13px; color:var(--text-muted);">Deal Stage:</span>
+              <select class="stage-select" onchange="updateStage('${lead._id}', this.value)">
+                <option value="Discovery" ${lead.stage === 'Discovery' ? 'selected' : ''}>Discovery</option>
+                <option value="Proposal" ${lead.stage === 'Proposal' ? 'selected' : ''}>Proposal</option>
+                <option value="Negotiation" ${lead.stage === 'Negotiation' ? 'selected' : ''}>Negotiation</option>
+                <option value="Closed-Won" ${lead.stage === 'Closed-Won' ? 'selected' : ''}>Closed-Won</option>
+                <option value="Closed-Lost" ${lead.stage === 'Closed-Lost' ? 'selected' : ''}>Closed-Lost</option>
+              </select>
+            </div>
+
+            <div class="timeline">
+              ${activitiesHtml || '<div style="color:#64748b;">No activities logged yet.</div>'}
+            </div>
+
+            <div class="activity-input-row">
+              <input type="text" id="note-${lead._id}" placeholder="Log interaction (e.g. Call completed, pitch sent)..." />
+              <button class="btn-add-note" onclick="addNote('${lead._id}')">+ Log Activity</button>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      } catch (err) {
+        console.error('Failed to load CRM leads:', err);
+      }
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById('name').value,
+        company: document.getElementById('company').value,
+        email: document.getElementById('email').value,
+        dealValue: document.getElementById('dealValue').value,
+        stage: document.getElementById('stage').value,
+        initialNote: document.getElementById('initialNote').value
+      };
+
+      await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      form.reset();
+      loadLeads();
+    });
+
+    async function updateStage(id, stage) {
+      await fetch(`/api/leads/${id}/stage`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stage })
+      });
+      loadLeads();
+    }
+
+    async function addNote(id) {
+      const input = document.getElementById(`note-${id}`);
+      const note = input.value.trim();
+      if (!note) return;
+
+      await fetch(`/api/leads/${id}/activities`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ note })
+      });
+      loadLeads();
+    }
+
+    async function deleteLead(id) {
+      await fetch(`/api/leads/${id}`, { method: 'DELETE' });
+      loadLeads();
+    }
+
+    loadLeads();
+  </script>
+</body>
+</html>

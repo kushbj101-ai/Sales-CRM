@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: pipeline-pro-crm
+    runtime: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && node index.js
+    autoDeploy: true
+    # Triggers automatic redeploys ONLY when render.yaml itself is modified
+    autoDeployTriggerPaths:
+      - render.yaml
+    envVars:
+      - key: MONGO_URI
+        sync: false # You will enter your MongoDB Atlas connection string in Render dashboard
+      - key: PORT
+        value: 3000
